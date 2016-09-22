@@ -28,22 +28,14 @@ ErlOpts = if not IsDevEnv -> []; true ->
 end,
 
 Plugins = case IsRebar3 of
-    true -> [{pc, {git, PortCompilerUrl, {branch, "master"}}}];
+    true -> [];
     false -> [rebar_gdb_plugin]
-end,
-
-ProviderHooks = if not IsRebar3 -> []; true ->
-    [{pre, [
-        {compile, {pc, compile}},
-        {clean, {pc, clean}}
-    ]}]
 end,
 
 OptsToAdd = [
     {deps, Deps},
     {erl_opts, ErlOpts},
-    {plugins, Plugins},
-    {provider_hooks, ProviderHooks}
+    {plugins, Plugins}
 ],
 
 AddOpt = fun(Name, Value, Config) when is_list(Value) ->
