@@ -30,6 +30,7 @@ build: depends
 
 
 eunit:
+	kerl list installations
 	$(REBAR) eunit skip_deps=true
 
 
