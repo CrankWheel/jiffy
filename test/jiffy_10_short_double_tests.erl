@@ -9,13 +9,7 @@
 
 
 filename() ->
-    {ok, Cwd} = file:get_cwd(),
-    case filename:basename(Cwd) of
-        ".eunit" ->
-            "../test/cases/short-doubles.txt";
-        _ ->
-            "test/cases/short-doubles.txt"
-    end.
+    cases_path("short-doubles.txt").
 
 
 short_double_test_() ->
