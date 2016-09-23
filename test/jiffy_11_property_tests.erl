@@ -18,7 +18,7 @@ property_test_() ->
         run(prop_enc_no_crash),
         run(prop_dec_no_crash_bin),
         run(prop_dec_no_crash_any)
-    ] ++ map_props(),
+    ] ++ map_props().
 
 
 -ifndef(JIFFY_NO_MAPS).
@@ -33,7 +33,9 @@ map_props() ->
 
 
 prop_enc_dec() ->
-    ?FORALL(Data, json(), Data == jiffy:decode(jiffy:encode(Data))).
+    ?FORALL(Data, json(), begin
+        Data == jiffy:decode(jiffy:encode(Data))
+    end).
 
 
 prop_dec_trailer() ->
@@ -155,7 +157,7 @@ any_list(0) ->
 
 any_list(Size) ->
     ListSize = Size div 5,
-    vector(ListSize, any(Size - ListSize)).
+    vector(ListSize, any(Size div 2)).
 
 
 any_tuple(0) ->
@@ -209,7 +211,7 @@ json_number() ->
 
 
 json_string() ->
-    oneof([utf8(), atom()]).
+    utf8().
 
 
 json_array(0) ->
@@ -217,14 +219,14 @@ json_array(0) ->
 
 json_array(Size) ->
     ArrSize = Size div 5,
-    vector(ArrSize, json(Size - ArrSize)).
+    vector(ArrSize, json(Size div 2)).
 
 
 json_object(0) ->
     {[]};
 json_object(Size) ->
     ObjSize = Size div 5,
-    {vector(ObjSize, {json_string(), json(Size - ObjSize)})}.
+    {vector(ObjSize, {json_string(), json(Size div 2)})}.
 
 
 combiner() ->
@@ -239,7 +241,7 @@ combiner() ->
 
 
 atom() ->
-    ?LET(L, ?SIZED(Size, vector(Size rem 253 + 1, char())), list_to_atom(L)).
+    ?LET(L, ?SIZED(Size, vector(Size rem 254, char())), list_to_atom(L)).
 
 
 
