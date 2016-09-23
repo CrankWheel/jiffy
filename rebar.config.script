@@ -12,6 +12,7 @@ HaveEQC = code:which(eqc) =/= non_existing,
 
 
 ErlOpts = if not HaveEQC -> []; true ->
+    io:format(standard_error, "EQC Version: ~p~n", [eqc:version()]),
     [{d, 'HAVE_EQC'}]
 end,
 
